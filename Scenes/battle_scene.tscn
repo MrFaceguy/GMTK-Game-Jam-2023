@@ -67,4 +67,8 @@ shape = SubResource("RectangleShape2D_64ivd")
 
 [node name="Knight" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_ferha")]
 position = Vector2(202, 601)
+current_state = {
+"ADVANCE": 0,
+"STANDING_ATTACK": 1
+}
 target = NodePath("../Dragon")

@@ -8,6 +8,8 @@ var playerHealth = 100
 
 var fireball = load("res://objects/fireball.tscn")
 
+var doubleJump = true
+
 signal fireballShot
 
 @onready var mainScene = get_tree().current_scene
@@ -42,6 +44,9 @@ func _physics_process(delta):
 	# Handle Jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		if Input.is_action_just_pressed("Jump") and doubleJump == true:
+			velocity.y = JUMP_VELOCITY
+			doubleJump = false
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
