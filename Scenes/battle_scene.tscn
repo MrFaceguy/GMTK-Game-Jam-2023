@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://b82nac84ratm0"]
+
+[ext_resource type="Script" path="res://scripts/healthBarCode.gd" id="1_baefn"]
+[ext_resource type="PackedScene" uid="uid://1erhkfvncm7g" path="res://Characters/player.tscn" id="2_hbe8r"]
+[ext_resource type="PackedScene" uid="uid://dsa5uq3gc7i63" path="res://Characters/knight1.tscn" id="4_ferha"]
+[ext_resource type="Texture2D" uid="uid://bcqslc1rakn70" path="res://images/IMG_1284.jpg" id="4_n11xa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hl42d"]
+bg_color = Color(0.886275, 0.152941, 0.109804, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64ivd"]
+size = Vector2(128, 74)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = ExtResource("4_n11xa")
+metadata/_edit_lock_ = true
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Control" node_paths=PackedStringArray("player")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -600.0
+offset_top = 40.0
+offset_right = 600.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_hl42d")
+value = 50.0
+show_percentage = false
+script = ExtResource("1_baefn")
+player = NodePath("../../Dragon")
+
+[node name="Label" type="Label" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Dragon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dragon" parent="." instance=ExtResource("2_hbe8r")]
+position = Vector2(1121, 553)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(639, 657)
+scale = Vector2(10, 1)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 27)
+shape = SubResource("RectangleShape2D_64ivd")
+
+[node name="Knight" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_ferha")]
+position = Vector2(202, 601)
+target = NodePath("../Dragon")

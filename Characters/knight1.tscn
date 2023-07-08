@@ -1,0 +1,122 @@
+[gd_scene load_steps=10 format=3 uid="uid://dsa5uq3gc7i63"]
+
+[ext_resource type="Script" path="res://Characters/knight1.gd" id="1_2iox4"]
+[ext_resource type="Texture2D" uid="uid://bmuplwctn1oa" path="res://images/460B8196-1BCB-4597-A0EC-7C261ECA1FCE.png" id="2_y6fpa"]
+
+[sub_resource type="Animation" id="Animation_4o5jg"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../SwordHitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jk2ok"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../SwordHitbox:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_hx1xa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../SwordHitbox:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x0tqq"]
+_data = {
+"RESET": SubResource("Animation_hx1xa"),
+"attack": SubResource("Animation_jk2ok"),
+"idle": SubResource("Animation_4o5jg")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtmxk"]
+size = Vector2(62, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljb63"]
+size = Vector2(48, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4we4"]
+radius = 81.2219
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_2iox4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+scale = Vector2(0.115, 0.115)
+texture = ExtResource("2_y6fpa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CollisionShape2D")
+libraries = {
+"": SubResource("AnimationLibrary_x0tqq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, 3)
+shape = SubResource("RectangleShape2D_wtmxk")
+
+[node name="SwordHitbox" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordHitbox"]
+position = Vector2(61, 0)
+shape = SubResource("RectangleShape2D_ljb63")
+debug_color = Color(0.972549, 0.145098, 0.180392, 0.419608)
+
+[node name="BattleRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BattleRange"]
+shape = SubResource("CircleShape2D_t4we4")
+
+[connection signal="body_entered" from="BattleRange" to="." method="_on_battle_range_body_entered"]
