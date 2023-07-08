@@ -1,19 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://bckmcbvcddt5n"]
+[gd_scene load_steps=6 format=3 uid="uid://bckmcbvcddt5n"]
 
 [ext_resource type="Script" path="res://scripts/fireball.gd" id="1_x3va7"]
-[ext_resource type="Texture2D" uid="uid://cnjc0nw2q4qgl" path="res://icon.svg" id="2_twd8i"]
+[ext_resource type="Texture2D" uid="uid://cucmm2xfkwibh" path="res://images/fireball1.png" id="2_w4tvv"]
+[ext_resource type="Texture2D" uid="uid://crnsh4unsp52y" path="res://images/fireball2.png" id="3_r5jwk"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8fknn"]
-radius = 18.0278
+[sub_resource type="SpriteFrames" id="SpriteFrames_qxm51"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w4tvv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_r5jwk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iii23"]
+radius = 9.0
+height = 34.0
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_x3va7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_twd8i")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(13, 0)
+scale = Vector2(0.04, 0.04)
+sprite_frames = SubResource("SpriteFrames_qxm51")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_8fknn")
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_iii23")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -11,10 +11,15 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	position.x += speed
+	if speed > 1:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+		
 	
 
 
 func _on_body_entered(body):
 	if body.is_in_group("enemy"):
 		self.queue_free()
-		body.queue_free()
+		body.enemyHealth -= 1 

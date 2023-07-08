@@ -10,10 +10,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 enum State {ADVANCE, STANDING_ATTACK}
 @export var current_state = State
 
-
-var direction = 0
+@export var enemyHealth = 5
 
 @export var target = Node2D
+
+var direction = 0
 
 func _ready():
 	current_state = State.ADVANCE
@@ -23,39 +24,34 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		
-	# Handles movement towards player
-	if current_state == State.ADVANCE:
-		$AnimationPlayer.play("idle")
-		var difference = self.global_position.x - target.global_position.x
-		velocity.x = SPEED * sign(-difference)
-			
-#
-#		if self.global_position.x > target.global_position.x:
-#			velocity.x = -SPEED
-#			direction = -1
-#
-#		if self.global_position.x < target.global_position.x:
-#			velocity.x = SPEED
-#			direction = 1
-
-			
+	match current_state:
+		State.ADVANCE:
+			$AnimationPlayer.play("idle")
+			var difference = target.global_position.x - self.global_position.x
+			velocity.x = SPEED * sign(difference)
+			direction = sign(velocity.x)
+		State.STANDING_ATTACK:
+			$AnimationPlayer.play("attack")
+			velocity.x = 0
 	move_and_slide()
+	
+	if enemyHealth == 0:
+		queue_free()
+		
 
 
 func _on_battle_range_body_entered(body):
 	current_state = State.STANDING_ATTACK
-	if body.is_in_group("player"):
+	if body == target:
 		if direction < 0:
 			$Sprite2D.flip_h = true
 			$SwordHitbox/CollisionShape2D.position.x = -61
 		if direction > 0:
 			$Sprite2D.flip_h = false
 			$SwordHitbox/CollisionShape2D.position.x = 61
-		velocity.x = 0
-		$AnimationPlayer.play("attack")
-		
 
+
+func _on_sword_hitbox_body_entered(body):
+	if body == target:
+		body.takeDamage(10, direction)
+		

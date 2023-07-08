@@ -1,15 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://b82nac84ratm0"]
+[gd_scene load_steps=10 format=3 uid="uid://b82nac84ratm0"]
 
 [ext_resource type="Script" path="res://scripts/healthBarCode.gd" id="1_baefn"]
 [ext_resource type="PackedScene" uid="uid://1erhkfvncm7g" path="res://Characters/player.tscn" id="2_hbe8r"]
 [ext_resource type="PackedScene" uid="uid://dsa5uq3gc7i63" path="res://Characters/knight1.tscn" id="4_ferha"]
 [ext_resource type="Texture2D" uid="uid://bcqslc1rakn70" path="res://images/IMG_1284.jpg" id="4_n11xa"]
+[ext_resource type="Script" path="res://Scenes/GameWon.gd" id="5_ws3ea"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hl42d"]
 bg_color = Color(0.886275, 0.152941, 0.109804, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_64ivd"]
 size = Vector2(128, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l2k0m"]
+size = Vector2(10, 720)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2rmmd"]
+font_size = 56
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 15
+shadow_color = Color(0, 0, 0, 0.631373)
+shadow_offset = Vector2(-2.745, 2.605)
 
 [node name="Node2D" type="Node2D"]
 
@@ -54,21 +66,43 @@ vertical_alignment = 1
 
 [node name="Dragon" parent="." instance=ExtResource("2_hbe8r")]
 position = Vector2(1121, 553)
+scale = Vector2(1.875, 1.875)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(639, 657)
 scale = Vector2(10, 1)
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_64ivd")
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-68.9, -297)
+shape = SubResource("RectangleShape2D_l2k0m")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(69.11, -297)
+shape = SubResource("RectangleShape2D_l2k0m")
+
 [node name="Knight" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_ferha")]
 position = Vector2(202, 601)
-current_state = {
-"ADVANCE": 0,
-"STANDING_ATTACK": 1
-}
 target = NodePath("../Dragon")
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("enemy")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU WIN"
+label_settings = SubResource("LabelSettings_2rmmd")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_ws3ea")
+enemy = NodePath("../Knight")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
