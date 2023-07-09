@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Gmtk-game-jam-2023"
-run/main_scene="res://Scenes/battle_scene.tscn"
+run/main_scene="res://Scenes/Title Screen.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneTransition="*res://Scenes/scene_transition.tscn"
 
 [display]
 

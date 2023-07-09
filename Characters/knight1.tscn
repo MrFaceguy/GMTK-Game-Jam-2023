@@ -1,7 +1,75 @@
-[gd_scene load_steps=10 format=3 uid="uid://dsa5uq3gc7i63"]
+[gd_scene load_steps=12 format=3 uid="uid://dsa5uq3gc7i63"]
 
-[ext_resource type="Script" path="res://Characters/knight1.gd" id="1_2iox4"]
+[ext_resource type="Script" path="res://scripts/knight1.gd" id="1_4gsqr"]
 [ext_resource type="Texture2D" uid="uid://bmuplwctn1oa" path="res://images/460B8196-1BCB-4597-A0EC-7C261ECA1FCE.png" id="2_y6fpa"]
+[ext_resource type="Script" path="res://scripts/enemyHealthBar.gd" id="3_iikv0"]
+
+[sub_resource type="Animation" id="Animation_ulfge"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:current_state")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [{
+"ADVANCE": 1,
+"IDLE": 0,
+"STANDING_ATTACK": 2
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SwordHitbox:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BattleRange:collision_mask")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BattleRange:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_jk2ok"]
 resource_name = "attack"
@@ -117,73 +185,6 @@ tracks/2/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_ulfge"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:current_state")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [{
-"ADVANCE": 1,
-"IDLE": 0,
-"STANDING_ATTACK": 2
-}]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("SwordHitbox:collision_mask")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("BattleRange:collision_mask")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("BattleRange:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x0tqq"]
 _data = {
 "RESET": SubResource("Animation_ulfge"),
@@ -200,8 +201,11 @@ size = Vector2(48, 20)
 [sub_resource type="CircleShape2D" id="CircleShape2D_t4we4"]
 radius = 81.2219
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucci8"]
+bg_color = Color(0.87451, 0, 0, 1)
+
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
-script = ExtResource("1_2iox4")
+script = ExtResource("1_4gsqr")
 current_state = {
 "ADVANCE": 1,
 "IDLE": 0,
@@ -235,9 +239,15 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BattleRange"]
 shape = SubResource("CircleShape2D_t4we4")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-offset_right = 4.0
-offset_bottom = 27.0
+[node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("mainMan")]
+offset_left = -66.0
+offset_top = -73.0
+offset_right = 67.0
+offset_bottom = -46.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_ucci8")
+show_percentage = false
+script = ExtResource("3_iikv0")
+mainMan = NodePath("..")
 
 [connection signal="body_entered" from="SwordHitbox" to="." method="_on_sword_hitbox_body_entered"]
 [connection signal="body_entered" from="BattleRange" to="." method="_on_battle_range_body_entered"]

@@ -26,6 +26,16 @@ enum State {IDLE, MOVING, FIREBALL, HITSTUN, JUMP, DOUBLE_JUMP}
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+func characterFlipping():
+	if Input.is_action_pressed("Left"):
+		$RayCast2D.position.x = -70
+		$RayCast2D.target_position.x = -10
+		$AnimatedSprite2D.flip_h = false
+	if Input.is_action_pressed("Right"):
+		$RayCast2D.position.x = 70
+		$RayCast2D.target_position.x = 10
+		$AnimatedSprite2D.flip_h = true
+
 func movementHandling():
 	var direction = Input.get_axis("Left", "Right")
 	if direction:
@@ -87,28 +97,23 @@ func _physics_process(delta):
 		State.MOVING:
 			$AnimatedSprite2D.play("walk")
 			
-			if Input.is_action_pressed("Left"):
-				$RayCast2D.position.x = -70
-				$RayCast2D.target_position.x = -10
-				$AnimatedSprite2D.flip_h = false
-				
-			if Input.is_action_pressed("Right"):
-				$RayCast2D.position.x = 70
-				$RayCast2D.target_position.x = 10
-				$AnimatedSprite2D.flip_h = true
+			characterFlipping()
 				
 				
 			movementHandling()
 		State.FIREBALL:
 			shootFireball()
 			
+			characterFlipping()
+			
 			movementHandling()
 		State.HITSTUN:
 			pass
 		State.JUMP:
 			$AnimatedSprite2D.animation = "jump"
-			$CollisionShape2D.shape.size = Vector2(128, 96)
-			$CollisionShape2D.position.y = -15
+			
+			
+			characterFlipping()
 			
 			movementHandling()
 			

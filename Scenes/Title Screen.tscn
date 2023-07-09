@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://u0viabx2nler"]
+
+[ext_resource type="Script" path="res://scripts/blinkingstart.gd" id="2_ph56g"]
+
+[sub_resource type="GDScript" id="GDScript_5mmhy"]
+script/source = "extends Control
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	if Input.is_action_just_pressed(\"Projectile\"):
+		SceneTransition.change_scene(\"res://Scenes/Intoduction.tscn\")
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_5e2ow"]
+font_size = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_t78vy"]
+font_size = 64
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_5mmhy")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Dragon Slayer"
+label_settings = SubResource("LabelSettings_5e2ow")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 464.0
+offset_right = 1167.0
+offset_bottom = 642.0
+text = "press \"S\" to Start!"
+label_settings = SubResource("LabelSettings_t78vy")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_ph56g")
+
+[node name="Timer" type="Timer" parent="Label2"]
+autostart = true
+
+[connection signal="timeout" from="Label2/Timer" to="Label2" method="_on_timer_timeout"]

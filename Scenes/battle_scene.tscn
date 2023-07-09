@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://1erhkfvncm7g" path="res://Characters/player.tscn" id="2_hbe8r"]
 [ext_resource type="PackedScene" uid="uid://dsa5uq3gc7i63" path="res://Characters/knight1.tscn" id="4_ferha"]
 [ext_resource type="Texture2D" uid="uid://bcqslc1rakn70" path="res://images/IMG_1284.jpg" id="4_n11xa"]
-[ext_resource type="Script" path="res://Scenes/GameWon.gd" id="5_ws3ea"]
+[ext_resource type="Script" path="res://scripts/GameWon.gd" id="5_ls0gw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hl42d"]
 bg_color = Color(0.886275, 0.152941, 0.109804, 1)
@@ -101,7 +101,7 @@ text = "YOU WIN"
 label_settings = SubResource("LabelSettings_2rmmd")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("5_ws3ea")
+script = ExtResource("5_ls0gw")
 enemy = NodePath("../Knight")
 
 [node name="Camera2D" type="Camera2D" parent="."]
