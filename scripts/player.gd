@@ -21,8 +21,6 @@ enum State {IDLE, MOVING, FIREBALL, HITSTUN, JUMP, DOUBLE_JUMP}
 @export var current_state = State.IDLE
 
 
-
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -46,6 +44,7 @@ func movementHandling():
 func shootFireball():
 	if fireballCooldown == false:
 		if Input.is_action_just_pressed("Projectile"):
+			$AnimatedSprite2D.play("spitFire")
 			var projectile = fireball.instantiate()
 			projectile.position = $RayCast2D.global_position
 			projectile.speed = $RayCast2D.target_position.x
@@ -61,29 +60,16 @@ func takeDamage(damage, direction):
 
 
 func stateManagement():
-#	if current_state != State.HITSTUN:
-#		if Input.is_action_pressed("Left") or Input.is_action_pressed("Right"):
-#			current_state = State.MOVING
-#		else:
-#			if !self.is_on_floor():
-#				current_state = State.JUMP
-#			else:
-#				current_state = State.IDLE
-#		if Input.is_action_just_pressed("Jump"):
-#			current_state = State.JUMP
-#		if Input.is_action_just_pressed("Projectile"):
-#			current_state = State.FIREBALL
-#
-		# Revised State Handling
-		if Input.is_action_just_pressed("Projectile"):
-			current_state = State.FIREBALL
-		elif !self.is_on_floor() or Input.is_action_just_pressed("Jump"):
-			current_state = State.JUMP
+	# Revised State Handling
+	if Input.is_action_just_pressed("Projectile"):
+		current_state = State.FIREBALL
+	elif !self.is_on_floor() or Input.is_action_just_pressed("Jump"):
+		current_state = State.JUMP
+	else:
+		if Input.is_action_pressed("Left") or Input.is_action_pressed("Right"):
+			current_state = State.MOVING
 		else:
-			if Input.is_action_pressed("Left") or Input.is_action_pressed("Right"):
-				current_state = State.MOVING
-			else:
-				current_state = State.IDLE
+			current_state = State.IDLE
 
 func _physics_process(delta):
 	

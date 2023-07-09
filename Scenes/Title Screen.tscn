@@ -1,5 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://u0viabx2nler"]
 
+[ext_resource type="Texture2D" uid="uid://1ntrbk6kt06x" path="res://Untitled_Artwork.png" id="1_srplp"]
 [ext_resource type="Script" path="res://scripts/blinkingstart.gd" id="2_ph56g"]
 
 [sub_resource type="GDScript" id="GDScript_5mmhy"]
@@ -11,11 +12,10 @@ func _process(_delta):
 		SceneTransition.change_scene(\"res://Scenes/Intoduction.tscn\")
 "
 
-[sub_resource type="LabelSettings" id="LabelSettings_5e2ow"]
-font_size = 128
-
 [sub_resource type="LabelSettings" id="LabelSettings_t78vy"]
 font_size = 64
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -26,19 +26,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_5mmhy")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Dragon Slayer"
-label_settings = SubResource("LabelSettings_5e2ow")
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UntitledArtwork" type="Sprite2D" parent="."]
+position = Vector2(640, 260.62)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("1_srplp")
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 0
 offset_left = 91.0
-offset_top = 464.0
+offset_top = 500.38
 offset_right = 1167.0
-offset_bottom = 642.0
+offset_bottom = 678.378
 text = "press \"S\" to Start!"
 label_settings = SubResource("LabelSettings_t78vy")
 horizontal_alignment = 1
