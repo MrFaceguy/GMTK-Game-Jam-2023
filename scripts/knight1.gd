@@ -27,7 +27,7 @@ func _physics_process(delta):
 		
 	match current_state:
 		State.ADVANCE:
-			$AnimationPlayer.play("idle")
+			$AnimationPlayer.play("walk")
 			var difference = target.global_position.x - self.global_position.x
 			velocity.x = SPEED * sign(difference)
 			direction = sign(velocity.x)
@@ -46,10 +46,10 @@ func _on_battle_range_body_entered(body):
 	if body == target:
 		if direction < 0:
 			$Sprite2D.flip_h = true
-			$SwordHitbox/CollisionShape2D.position.x = -61
+			$SwordHitbox/CollisionShape2D.position.x = -40
 		if direction > 0:
 			$Sprite2D.flip_h = false
-			$SwordHitbox/CollisionShape2D.position.x = 61
+			$SwordHitbox/CollisionShape2D.position.x = 40
 
 
 func _on_sword_hitbox_body_entered(body):

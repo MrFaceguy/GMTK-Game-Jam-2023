@@ -44,6 +44,7 @@ func movementHandling():
 func shootFireball():
 	if fireballCooldown == false:
 		if Input.is_action_just_pressed("Projectile"):
+			$AnimationTimer.start()
 			$AnimatedSprite2D.play("spitFire")
 			var projectile = fireball.instantiate()
 			projectile.position = $RayCast2D.global_position
@@ -61,8 +62,10 @@ func takeDamage(damage, direction):
 
 func stateManagement():
 	# Revised State Handling
-	if Input.is_action_just_pressed("Projectile"):
+	if Input.is_action_pressed("Projectile"):
 		current_state = State.FIREBALL
+	elif $AnimationTimer.time_left > 0 and !Input.is_anything_pressed():
+		$AnimatedSprite2D.play("spitFire")
 	elif !self.is_on_floor() or Input.is_action_just_pressed("Jump"):
 		current_state = State.JUMP
 	else:
@@ -88,6 +91,7 @@ func _physics_process(delta):
 				
 			movementHandling()
 		State.FIREBALL:
+			
 			shootFireball()
 			
 			characterFlipping()
@@ -113,7 +117,6 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
-	
 	move_and_slide()
 
 func _on_timer_timeout():
@@ -123,3 +126,7 @@ func _on_timer_timeout():
 
 func _on_fireball_timer_timeout():
 	fireballCooldown = false
+
+
+func _on_animation_timer_timeout():
+	$AnimationTimer.stop()

@@ -72,5 +72,9 @@ wait_time = 0.75
 [node name="FireballTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="AnimationTimer" type="Timer" parent="."]
+wait_time = 0.25
+
 [connection signal="timeout" from="HitstunTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="FireballTimer" to="." method="_on_fireball_timer_timeout"]
+[connection signal="timeout" from="AnimationTimer" to="." method="_on_animation_timer_timeout"]

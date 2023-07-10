@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://u0viabx2nler"]
 
-[ext_resource type="Texture2D" uid="uid://1ntrbk6kt06x" path="res://Untitled_Artwork.png" id="1_srplp"]
+[ext_resource type="Texture2D" uid="uid://cdp5c2jlm8fio" path="res://images/Untitled_Artwork.png" id="1_cl3yv"]
 [ext_resource type="Script" path="res://scripts/blinkingstart.gd" id="2_ph56g"]
 
 [sub_resource type="GDScript" id="GDScript_5mmhy"]
@@ -37,7 +37,7 @@ grow_vertical = 2
 [node name="UntitledArtwork" type="Sprite2D" parent="."]
 position = Vector2(640, 260.62)
 scale = Vector2(0.65, 0.65)
-texture = ExtResource("1_srplp")
+texture = ExtResource("1_cl3yv")
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 0
